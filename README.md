@@ -51,7 +51,7 @@ This project demonstrates:
 ---
 
 ## Architecture
-
+![HealthAI Architecture](docs/healthai_clean_architecture_free_tier.svg)
 ```
 User (Web / PWA / Voice)
         │
