@@ -9,7 +9,7 @@
 [![LangGraph](https://img.shields.io/badge/LangGraph-Agentic%20Core-7F77DD?style=flat)](https://langchain-ai.github.io/langgraph/)
 [![React](https://img.shields.io/badge/React-18+-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Deploy: Free Tier](https://img.shields.io/badge/Deploy-100%25%20Free%20Tier-1D9E75?style=flat)](docs/deployment.md)
+<!--[![Deploy: Free Tier](https://img.shields.io/badge/Deploy-100%25%20Free%20Tier-1D9E75?style=flat)](docs/deployment.md)-->
 
 [Live Demo](https://healthai-demo.vercel.app) · [Architecture Docs](docs/architecture.md) · [API Reference](docs/api.md) · [Report a Bug](issues)
 
