@@ -11,8 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 <!--[![Deploy: Free Tier](https://img.shields.io/badge/Deploy-100%25%20Free%20Tier-1D9E75?style=flat)](docs/deployment.md)-->
 
-[Live Demo](https://healthai-demo.vercel.app) · [Architecture Docs](docs/architecture.md) · [API Reference](docs/api.md) · [Report a Bug](issues)
-
+[Live Demo](https://healthai-demo.vercel.app) · [Architecture Diagram](docs/healthai_clean_architecture_free_tier.svg) · [Report a Bug](../../issues)
 ---
 
 > **Disclaimer:** HealthAI is an AI-assisted wellness tool for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider.
