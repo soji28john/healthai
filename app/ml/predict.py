@@ -1,0 +1,35 @@
+import joblib, shap, numpy as np
+from pathlib import Path
+
+MODEL_DIR = Path("app/ml/models")
+
+def predict_diabetes_risk(features: dict) -> dict:
+    pipeline = joblib.load(MODEL_DIR / "diabetes_model.joblib")
+    feature_names = joblib.load(MODEL_DIR / "diabetes_features.joblib")
+
+    X = np.array([[features.get(f, 0) for f in feature_names]])
+
+    proba = pipeline.predict_proba(X)[0][1]  # probability of positive class
+
+    # SHAP explanation
+    explainer = shap.TreeExplainer(pipeline.named_steps["model"])
+    X_scaled = pipeline.named_steps["scaler"].transform(X)
+    shap_values = explainer.shap_values(X_scaled)[0]
+
+    top_factors = sorted(
+        zip(feature_names, shap_values),
+        key=lambda x: abs(x[1]),
+        reverse=True
+    )[:3]
+
+    explanation = "Your risk score is mainly influenced by: " + ", ".join(
+        f"{name} ({'increases' if val > 0 else 'decreases'} risk)"
+        for name, val in top_factors
+    )
+
+    return {
+        "risk_score": round(float(proba), 3),
+        "risk_level": "HIGH" if proba > 0.7 else "MODERATE" if proba > 0.4 else "LOW",
+        "explanation": explanation,
+        "disclaimer": "This is a statistical estimate, not a diagnosis. Consult your doctor."
+    }
