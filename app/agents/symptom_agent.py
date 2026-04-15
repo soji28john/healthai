@@ -38,3 +38,19 @@ class SymptomAgent(BaseAgent):
             agent_name=self.name,
             metadata=data
         )
+def validate_symptom_output(output: str) -> bool:
+    # Simple checks for hard limits
+    lower = output.lower()
+    if "you have" in lower or "diagnosed with" in lower:
+        return False
+    if "take" in lower and ("mg" in lower or "tablet" in lower):
+        return False
+    if "lab result" in lower or "blood test" in lower:
+        return False
+    # drug like detection (generic , NOT a list)
+    if any(word in lower for word in ["ibuprofen", "paracetamol","aspirin"]):
+        return False
+    return True
+
+
+           

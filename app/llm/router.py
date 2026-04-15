@@ -1,8 +1,16 @@
+from fastapi import APIRouter
 import os
 import google.generativeai as genai
 from groq import Groq
 
+router = APIRouter()
+
+
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+@router.get("/llm")
+async def llm_endpoint(prompt: str):
+    return {"response": await call_llm(prompt)}
 
 async def call_llm(prompt: str, system: str = "", max_tokens: int = 1024) -> str:
     """Try Gemini Flash → Groq → raise. Ollama fallback can be added locally."""

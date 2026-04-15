@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.gateway.router import router
+from app.llm.router import router
 from app.gateway.policy_agent import PolicyMiddleware
 
 app = FastAPI(title="HealthAI", version="0.1.0")
