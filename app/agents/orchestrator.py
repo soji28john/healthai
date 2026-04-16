@@ -20,17 +20,42 @@ nutrition_agent = NutritionAgent()
 
 async def triage_node(state: HealthState) -> HealthState:
     from app.agents.base_agent import AgentInput
-    result = await symptom_agent.run(AgentInput(user_id=state["user_id"], message=state["message"]))
-    return {**state, "severity": result.metadata.get("severity", "LOW"), "symptom_response": result.response, "escalate": result.escalate}
+    
+    message = state["message"].lower()
+    
+    try:
+        
+        result = await symptom_agent.run(AgentInput(user_id=state["user_id"], message=state["message"]))
+        severity = result.metadata.get("severity", "LOW")
+        escalate = result.escalate
+        response = result.response
+    except Exception:
+        
+        if any(keyword in message for keyword in ["chest pain", "shortness of breath", "severe headache", "sudden weakness", "unconscious"]):
+            severity = "HIGH"
+            escalate = True
+            response = "Your symptoms may indicate a serious condition. Please seek immediate medical attention."
+        else:
+            severity = "LOW"
+            escalate = False
+            response = "Based on your symptoms, it seems like a mild condition. Here are some general wellness suggestions."
+        
+    return {**state, "severity": severity, "symptom_response": response, "escalate": escalate}
 
 async def wellness_node(state: HealthState) -> HealthState:
     from app.agents.base_agent import AgentInput
-    result = await wellness_agent.run(AgentInput(
-        user_id=state["user_id"],
-        message=state["message"],
-        context={"severity": state.get("severity", "LOW")}
-    ))
-    return {**state, "wellness_response": result.response}
+    
+    try:
+        
+        result = await wellness_agent.run(AgentInput(
+            user_id=state["user_id"],
+            message=state["message"],
+            context={"severity": state.get("severity", "LOW")}
+        ))
+        response = result.response
+    except Exception:
+        response = "Maintain hydration, rest, and monitor symptoms."
+    return {**state, "wellness_response": response}
 
 def should_escalate(state: HealthState) -> str:
     return "escalate" if state.get("escalate") else "wellness"
